@@ -1,0 +1,134 @@
+// JVCF
+// Joint Variant Call Format
+{
+    "description" : "A representation of a genomic variant relative to a reference sequence",
+    "properties" : {
+        "range" : { 
+            "description" : "The genomic range or position of this variant in the reference sequence",
+            "properties" : { 
+                "description" : "A 1-indexed coordinate at the start of the range",
+                "position" : { 
+                    "type" : "integer",
+                    "required" : true
+                },
+                "length" : { 
+                    "description" : "The length of the range",
+                    "type" : "integer",
+                    "optional" : true // optional for insertions
+                },
+                "chromosome" : { 
+                    "description" : "An identifier of the chromosome of the reference sequence in which this range occurs",
+                    "type" : [ "integer", "string" ],
+                    "required" : true
+                },
+                "species" : { 
+                    "description" : "A species specifier (for use specifically when the range lies in a different species)",
+                    "optional" : true,
+                    "properties" : {
+                        "name" : { "type" : "string" }
+                    }
+                },
+                "referenceSequence" : {
+                    "description" : "An identifier describing the reference sequence used to call this variant",
+                    "type" : "string",
+                    "optional" : true
+                }
+            },
+            "optional" : true,
+        }, 
+        "insertion" : { 
+            "description" : "A representation of an insertion relative to the reference",
+            "properties" : { 
+                "from" : {
+                    "$ref" : "#.properties.range",
+                    "optional" : true
+                },
+                "to" : {
+                    "$ref" : "#.properties.range" 
+                }
+            }
+        },
+        "deletion" : { 
+            "description" : "A representation of an deletion relative to the reference",
+            "$ref" : "#.properties.range" 
+        },
+        "snp" : { 
+            "description" : "A representation of single-nucleotide variation relative to the reference",
+            "properties" : {
+                "position" : { 
+                    "$ref" : "#.properties.range",
+                    "required" : true
+                },
+                "reference" : { 
+                    "description" : "The reference base at this position",
+                    "type" : "string", 
+                    "minLength" : 1,
+                    "maxLength" : 1,
+                    "required" : true
+                },
+                "alternate" : {
+                    "description" : "The alternate allele of this variation",
+                    "type" : "string", 
+                    "minLength" : 1,
+                    "maxLength" : 1,
+                    "required" : true
+                }
+            }
+        },
+        // TODO cnv
+        "samples" : { 
+            "description" : "A list of samples supporting the variant call",
+            "type" : "array",
+            "items" : { 
+                "description" : "A representation of supporting evidence drawn from a specific sample",
+                "properties" : {
+                    "genotype" : { 
+                        "description" : "The estimated genotype of this sample expressed relative to the reference genome, in the form of N/N if the genotype call is unphase or N|N if it is phased.  The allele values (N) are 0 for the reference and 1 for the alternate.",
+                        "enum" : [ "0|0", "0|1", "1|0", "1|1", "0/0", "0/1", "1/0", "1/1" ]
+                    },
+                    "quality" : { 
+                        "description" : "The phred-scaled quality score of this sample's genotype call",
+                        "type" : "number"
+                    },
+                    "readDepth" : {  // XXX ambiguous in the case of anything other than snps
+                        "description" : "The read depth of this sample in the range of the variant",
+                        "type" : "integer" 
+                    },
+                    "haplotypeQuality" : { 
+                        "description" : "The phred-scaled quality of the haplotye call of this individual",
+                        "type" : "number"
+                    }
+                }
+            }
+        },
+        "reference" : { 
+            "description" : "The corresponding reference sequence against which this variant is called",
+            "type" : "string",
+            "optional" : true
+        },
+        "quality" : {
+            "description" : "A phred-scaled quality score of this variant call", 
+            "type" : "number"  // could be int or float
+        },
+        "id" : { 
+            "description" : "An id associated with this variant call",
+            "type" : ["string", "integer"], 
+            "optional": true 
+        },
+        "filters" : { 
+            "description" : "A set of filters which apply to this variant call",
+            "type" : "object",
+            "optional": true
+        },
+        "info" : { 
+            "description" : "A set of informative flags and key : value pairs describing this variant call",
+            "type" : "object", 
+            "optional" : true
+        },
+        "type" : { // snp, insertion, deletion, tandem duplication, rearrangement, reversal, translocation, cnv
+            "description" : "A optional specifier, or list of specifiers describing the type of this variant",
+            "type" : [ "string", "array" ],
+            "optional" : true
+        }
+    },
+}
