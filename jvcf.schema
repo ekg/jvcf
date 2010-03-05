@@ -1,182 +1,283 @@
-// JVCF
-// Joint Variant Call Format
 {
     "name" : "variant call",
-    "description" : "A representation of a genomic variant relative to a reference sequence",
+    "description" : "Join Variant Call Format: A generic and extensible representation of a genomic variant relative to a reference sequence",
     "properties" : {
-        "range" : { 
+        "range" : {
             "description" : "The genomic range or position of this variant in the reference sequence",
-            "properties" : { 
-                "start" : { 
+            "properties" : {
+                "start" : {
                     "description" : "A 1-indexed coordinate demarking the start of the range",
                     "type" : "integer",
-                    "required" : true
+                    "required" : true 
                 },
-                "end" : { 
+                "end" : {
                     "description" : "A 1-indexed (inclusive) coordinate demarking the end of the range",
                     "type" : "integer",
                     "optional" : true,
-                    "requires" :  "start"
+                    "requires" : "start" 
                 },
                 "length" : {
                     "description" : "The length of this range, provide if an end is not given",
-                    "type" : [ "integer", { "$ref" : "#.properties.range.distribution" } ],
+                    "type" : [
+                        "integer",
+                        {
+                            "$ref" : "#.properties.range.distribution" 
+                        } 
+                    ],
                     "optional" : true,
-                    "requires" : "start"
+                    "requires" : "start" 
                 },
-                // use distribution when both the start and the end have the same estimated distribution
                 "distribution" : {
                     "description" : "A description of the distribution of this range",
                     "properties" : {
-                        "deviance" : { 
+                        "deviance" : {
                             "description" : "The +/- deviation of this distribution",
-                            "type" : "integer"
+                            "type" : "integer" 
                         },
-                        "confidence" : { 
+                        "confidence" : {
                             "description" : "The phred-scaled confidence degree of this distribution",
-                            "type" : "number"
+                            "type" : "number" 
                         },
                         "type" : {
                             "description" : "The name of the estimated probability distribution of this distribution",
-                            "type" : "string"
-                        }
-                    }
+                            "type" : "string" 
+                        } 
+                    } 
                 },
-                "startDistribution" : { "type" : { "$ref" : "#.properties.range.distribution" } },
-                "endDistribution" : { "type" : { "$ref" : "#.properties.range.distribution" } },
-                "chromosome" : { "type" : { "$ref" : "#.properties.chromosome" } },
-                "strand" : { "type" : { "$ref" : "#.properties.strand" } },
-                "species" : { 
+                "startDistribution" : {
+                    "type" : {
+                        "$ref" : "#.properties.range.distribution" 
+                    } 
+                },
+                "endDistribution" : {
+                    "type" : {
+                        "$ref" : "#.properties.range.distribution" 
+                    } 
+                },
+                "chromosome" : {
+                    "type" : {
+                        "$ref" : "#.properties.chromosome" 
+                    } 
+                },
+                "strand" : {
+                    "type" : {
+                        "$ref" : "#.properties.strand" 
+                    } 
+                },
+                "species" : {
                     "description" : "A species specifier (for use specifically when the range lies in a different species)",
                     "optional" : true,
-                    "type" : "string"
+                    "type" : "string" 
                 },
                 "referenceSequence" : {
                     "description" : "An identifier (url, name, id) describing the reference sequence used to call this variant",
                     "type" : "string",
-                    "optional" : true
-                }
+                    "optional" : true 
+                } 
             },
-            "optional" : true,
-        }, 
+            "optional" : true 
+        },
         "position" : {
             "description" : "An identifier of the reference position, or probabilistic distribution of positions, of this variant.",
-            "type" : [ "integer", { "$ref" : "#.properties.range.distribution" } ],
-            "optional" : true
+            "type" : [
+                "integer",
+                {
+                    "$ref" : "#.properties.range.distribution" 
+                } 
+            ],
+            "optional" : true 
         },
-        "chromosome" : { 
+        "chromosome" : {
             "description" : "An identifier of the chromosome of the reference sequence in which this range occurs",
-            "type" : [ "integer", "string" ],
-            "optional" : true
+            "type" : [
+                "integer",
+                "string" 
+            ],
+            "optional" : true 
         },
-        "reference" : { 
+        "reference" : {
             "description" : "The corresponding reference sequence against which this variant is called",
             "type" : "string",
-            "optional" : true
+            "optional" : true 
         },
         "strand" : {
             "description" : "The strand (+/- relative to the reference) on which this variant is observed",
             "type" : "string",
-            "optional" : true
+            "optional" : true 
         },
         "quality" : {
-            "description" : "A phred-scaled quality score of this variant call (or element, if used in other contexts)", 
-            "type" : "number"  // could be int or float
+            "description" : "A phred-scaled quality score of this variant call (or element, if used in other contexts)",
+            "type" : "number" 
         },
-        "id" : { 
+        "id" : {
             "description" : "An id associated with this variant call",
-            "type" : ["string", "integer"], 
+            "type" : [
+                "string",
+                "integer" 
+            ],
             "optional": true 
         },
-        "filters" : { 
+        "filters" : {
             "description" : "A set of filters which apply to this variant call",
             "type" : "object",
-            "optional": true
+            "optional": true 
         },
-        "info" : { 
+        "info" : {
             "description" : "A set of informative flags and key : value pairs describing this variant call",
-            "type" : "object", 
-            "optional" : true
+            "type" : "object",
+            "optional" : true 
         },
-        "type" : { // e.g. snp, insertion, deletion, tandem duplication, rearrangement, reversal, inversion, translocation, cnv, etc.
-            "description" : "A specifier, or list of specifiers describing the type of this variant",
-            "type" : [ "string", "array" ],
-            "optional" : true
+        "type" : {
+            "description" : "A specifier, or list of specifiers describing the type of this variant (e.g. snp, insertion, deletion, tandem duplication, rearrangement, reversal, inversion, translocation, cnv, etc.)",
+            "type" : [
+                "string",
+                "array" 
+            ],
+            "optional" : true 
         },
-        "insertion" : { 
+        "insertion" : {
             "description" : "A representation of an insertion relative to the reference",
-            "type" : { "$ref" : "#.properties.range" },
-            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },  // this means "the parent object must have a set of coordinates
-            "optional" : true
+            "type" : {
+                "$ref" : "#.properties.range" 
+            },
+            "requires" : {
+                "properties" : {
+                    "position" : {
+                        
+                    },
+                    "chromosome" : {
+                        
+                    } 
+                } 
+            },
+            "optional" : true 
         },
-        "deletion" : { 
+        "deletion" : {
             "description" : "A representation of an deletion relative to the reference",
-            "type" : { "$ref" : "#.properties.range" },
-            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },
-            "optional" : true
+            "type" : {
+                "$ref" : "#.properties.range" 
+            },
+            "requires" : {
+                "properties" : {
+                    "position" : {
+                        
+                    },
+                    "chromosome" : {
+                        
+                    } 
+                } 
+            },
+            "optional" : true 
         },
         "inversion" : {
             "description" : "A representation of an inversion relative to the reference",
             "properties" : {
                 "from" : "#.properties.range",
-                "to" : "#.properties.range"
-            }
-            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },
-            "optional" : true
-        },
-        "repeat" : { 
-            "description" : "A representation of a repeat of sequence relative to the reference",
-            "properties" : { 
-                "count" : { "type" : [ "integer", { "$ref" : "#.properties.range.distribution" } ] },
-                "range" : { "$ref" : "#.properties.range" }, // range in the reference which is repeat
+                "to" : "#.properties.range" 
             },
-            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } }
+            "requires" : {
+                "properties" : {
+                    "position" : {
+                        
+                    },
+                    "chromosome" : {
+                        
+                    } 
+                } 
+            },
+            "optional" : true 
         },
-        "snp" : { 
+        "repeat" : {
+            "description" : "A representation of a repeat of sequence relative to the reference",
+            "properties" : {
+                "count" : {
+                    "type" : [
+                        "integer",
+                        {
+                            "$ref" : "#.properties.range.distribution" 
+                        } 
+                    ] 
+                },
+                "range" : {
+                    "$ref" : "#.properties.range" 
+                } 
+            },
+            "requires" : {
+                "properties" : {
+                    "position" : {
+                        
+                    },
+                    "chromosome" : {
+                        
+                    } 
+                } 
+            } 
+        },
+        "snp" : {
             "description" : "A representation of single-nucleotide variation relative to the reference",
             "properties" : {
-                "referenceBase" : { 
+                "referenceBase" : {
                     "description" : "The reference base at this position",
-                    "type" : "string", 
+                    "type" : "string",
                     "minLength" : 1,
                     "maxLength" : 1,
-                    "required" : true
+                    "required" : true 
                 },
                 "alternateBase" : {
                     "description" : "The alternate allele of this variation",
-                    "type" : "string", 
+                    "type" : "string",
                     "minLength" : 1,
                     "maxLength" : 1,
-                    "required" : true
+                    "required" : true 
                 },
-                //  this means "when you have a snp, you must have position and
-                //  chromosome properties in the containing variant call object
-                "requires" : { "properties" : { "position" : { }, "chromosome" : { } } }
-            }
+                "requires" : {
+                    "properties" : {
+                        "position" : {
+                            
+                        },
+                        "chromosome" : {
+                            
+                        } 
+                    } 
+                } 
+            } 
         },
-        "samples" : { 
+        "samples" : {
             "description" : "A list of samples supporting the variant call",
             "type" : "array",
-            "items" : { 
+            "items" : {
                 "description" : "A representation of supporting evidence drawn from a specific sample",
                 "properties" : {
-                    "genotype" : { 
+                    "genotype" : {
                         "description" : "The estimated genotype of this sample expressed relative to the reference genome, in the form of N/N if the genotype call is unphase or N|N if it is phased.  The allele values (N) are 0 for the reference and 1 for the alternate.",
-                        "enum" : [ "0|0", "0|1", "1|0", "1|1", "0/0", "0/1", "1/0", "1/1" ]
+                        "enum" : [
+                            "0|0",
+                            "0|1",
+                            "1|0",
+                            "1|1",
+                            "0/0",
+                            "0/1",
+                            "1/0",
+                            "1/1" 
+                        ] 
                     },
                     "quality" : {
-                        "type" : { "$ref" : "#.properties.quality" }
+                        "type" : {
+                            "$ref" : "#.properties.quality" 
+                        } 
                     },
-                    "readDepth" : {  // XXX ambiguous in the case of anything other than snps
+                    "readDepth" : {
                         "description" : "The read depth of this sample in the range of the variant",
                         "type" : "integer" 
                     },
-                    "haplotypeQuality" : { 
+                    "haplotypeQuality" : {
                         "description" : "The phred-scaled quality of the haplotye call of this individual",
-                        "type" : { "$ref" : "#.properties.quality" }
-                    }
-                }
-            }
-        }
+                        "type" : {
+                            "$ref" : "#.properties.quality" 
+                        } 
+                    } 
+                } 
+            } 
+        } 
     }
 }
