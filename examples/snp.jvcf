@@ -1,0 +1,35 @@
+// snp
+{
+    "position" : 3422433,
+    "chromosome" : 2,
+    "strand" : "+",
+    "quality" : 45,
+    "type" : "snp",
+    "snp" : { 
+        "referenceBase" : "A",
+        "alternateBase" : "G" 
+    },
+    "samples" : [
+        {
+            "name" : "NA12878",
+            "pop" : "CEU",
+            "quality" : 22,
+            "readDepth" : 37,
+            "genotype" : "1/1"
+        },
+        {
+            "name" : "NA69699",
+            "pop" : "CEU",
+            "quality" : 5,
+            "readDepth" : 12,
+            "genotype" : "0/0"
+        },
+        {
+            "name" : "NA00001",
+            "pop" : "CEU",
+            "quality" : 0,
+            "readDepth" : 4,
+            "genotype" : "1/0"
+        }
+    ]
+}
