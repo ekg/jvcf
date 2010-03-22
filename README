@@ -1,0 +1,11 @@
+JVCF -- Joint Variant Call Format
+
+    JSON notation for the exchange of genetic variant calls.
+
+
+
+JVCF is a JSON-based notation designed to encompass the minimal set of
+requirements for a genetic variant description language.
+
+
+Author: Erik Garrison <erik.garrison@bc.edu>
