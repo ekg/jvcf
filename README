@@ -7,5 +7,8 @@ JVCF -- Joint Variant Call Format
 JVCF is a JSON-based notation designed to encompass the minimal set of
 requirements for a genetic variant description language.
 
+Presently this notation is delineated by a JSON schema document following the
+schema specification at http://json-schema.org/.
+
 
 Author: Erik Garrison <erik.garrison@bc.edu>
