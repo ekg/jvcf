@@ -4,10 +4,8 @@
     "strand" : "+",
     "quality" : 45,
     "type" : "snp",
-    "snp" : { 
-        "referenceBase" : "A",
-        "alternateBase" : "G" 
-    },
+    "reference" : "A",
+    "alternate" : "G",
     "samples" : [
         {
             "name" : "NA12878",

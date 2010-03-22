@@ -18,12 +18,7 @@
                 },
                 "length" : {
                     "description" : "The length of this range, provide if an end is not given",
-                    "type" : [
-                        "integer",
-                        {
-                            "$ref" : "#.properties.range.distribution" 
-                        } 
-                    ],
+                    "type" : [ "integer", { "$ref" : "#.properties.range.distribution" } ],
                     "optional" : true,
                     "requires" : "start" 
                 },
@@ -35,7 +30,7 @@
                             "type" : "integer" 
                         },
                         "confidence" : {
-                            "description" : "The phred-scaled confidence degree of this distribution",
+                            "description" : "The confidence value of this distribution",
                             "type" : "number" 
                         },
                         "type" : {
@@ -45,24 +40,16 @@
                     } 
                 },
                 "startDistribution" : {
-                    "type" : {
-                        "$ref" : "#.properties.range.distribution" 
-                    } 
+                    "type" : { "$ref" : "#.properties.range.distribution" } 
                 },
                 "endDistribution" : {
-                    "type" : {
-                        "$ref" : "#.properties.range.distribution" 
-                    } 
+                    "type" : { "$ref" : "#.properties.range.distribution" } 
                 },
                 "chromosome" : {
-                    "type" : {
-                        "$ref" : "#.properties.chromosome" 
-                    } 
+                    "type" : { "$ref" : "#.properties.chromosome" } 
                 },
                 "strand" : {
-                    "type" : {
-                        "$ref" : "#.properties.strand" 
-                    } 
+                    "type" : { "$ref" : "#.properties.strand" } 
                 },
                 "species" : {
                     "description" : "A species specifier (for use specifically when the range lies in a different species)",
@@ -78,27 +65,22 @@
             "optional" : true 
         },
         "position" : {
-            "description" : "An identifier of the reference position, or probabilistic distribution of positions, of this variant.",
-            "type" : [
-                "integer",
-                {
-                    "$ref" : "#.properties.range.distribution" 
-                } 
-            ],
-            "optional" : true 
+            "description" : "An identifier of the exact reference position, range, or probabilistic distribution of positions, of this variant.",
+            "type" : [ "integer", { "$ref" : "#.properties.range" }, { "$ref" : "#.properties.range.distribution" } ]
         },
         "chromosome" : {
             "description" : "An identifier of the chromosome of the reference sequence in which this range occurs",
-            "type" : [
-                "integer",
-                "string" 
-            ],
-            "optional" : true 
+            "type" : [ "integer", "string" ]
         },
         "reference" : {
-            "description" : "The corresponding reference sequence against which this variant is called",
+            "description" : "The reference sequence or base at this position",
             "type" : "string",
-            "optional" : true 
+            "optional" : true
+        },
+        "alternate" : {
+            "description" : "The alternate allele (sequence or base) of this variation",
+            "type" : "string",
+            "optional" : true
         },
         "strand" : {
             "description" : "The strand (+/- relative to the reference) on which this variant is observed",
@@ -107,15 +89,17 @@
         },
         "quality" : {
             "description" : "A phred-scaled quality score of this variant call (or element, if used in other contexts)",
-            "type" : "number" 
+            "type" : "number"
         },
         "id" : {
             "description" : "An id associated with this variant call",
-            "type" : [
-                "string",
-                "integer" 
-            ],
+            "type" : [ "string", "integer" ],
             "optional": true 
+        },
+        "referenceName" : {
+            "description" : "The corresponding reference sequence against which this variant is called",
+            "type" : "string",
+            "optional" : true 
         },
         "filters" : {
             "description" : "A set of filters which apply to this variant call",
@@ -129,118 +113,45 @@
         },
         "type" : {
             "description" : "A specifier, or list of specifiers describing the type of this variant (e.g. snp, insertion, deletion, tandem duplication, rearrangement, reversal, inversion, translocation, cnv, etc.)",
-            "type" : [
-                "string",
-                "array" 
-            ],
-            "optional" : true 
+            "type" : [ "string", "array" ]
         },
         "insertion" : {
             "description" : "A representation of an insertion relative to the reference",
-            "type" : {
-                "$ref" : "#.properties.range" 
-            },
-            "requires" : {
-                "properties" : {
-                    "position" : {
-                        
-                    },
-                    "chromosome" : {
-                        
-                    } 
-                } 
-            },
+            "type" : { "$ref" : "#.properties.range" },
+            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },
             "optional" : true 
         },
         "deletion" : {
             "description" : "A representation of an deletion relative to the reference",
-            "type" : {
-                "$ref" : "#.properties.range" 
-            },
-            "requires" : {
-                "properties" : {
-                    "position" : {
-                        
-                    },
-                    "chromosome" : {
-                        
-                    } 
-                } 
-            },
+            "type" : { "$ref" : "#.properties.range" },
+            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },
             "optional" : true 
         },
         "inversion" : {
             "description" : "A representation of an inversion relative to the reference",
             "properties" : {
-                "from" : "#.properties.range",
-                "to" : "#.properties.range" 
+                "from" : { "$ref" : "#.properties.range" },
+                "to" : { "$ref" : "#.properties.range" }
             },
-            "requires" : {
-                "properties" : {
-                    "position" : {
-                        
-                    },
-                    "chromosome" : {
-                        
-                    } 
-                } 
-            },
+            "requires" : { "properties" : { "position" : { }, "chromosome" : { }, "strand" : { } } },
             "optional" : true 
         },
         "repeat" : {
             "description" : "A representation of a repeat of sequence relative to the reference",
             "properties" : {
                 "count" : {
-                    "type" : [
-                        "integer",
-                        {
-                            "$ref" : "#.properties.range.distribution" 
-                        } 
-                    ] 
+                    "description" : "A count of the number of repeats of the sequence in the sample(s) relative to the reference.",
+                    "type" : [ "integer", { "$ref" : "#.properties.range.distribution" } ] 
                 },
-                "range" : {
-                    "$ref" : "#.properties.range" 
-                } 
+                "range" : { "$ref" : "#.properties.range" } 
             },
-            "requires" : {
-                "properties" : {
-                    "position" : {
-                        
-                    },
-                    "chromosome" : {
-                        
-                    } 
-                } 
-            } 
+            "requires" : { "properties" : { "position" : { }, "chromosome" : { } } },
+            "optional" : true
         },
         "snp" : {
             "description" : "A representation of single-nucleotide variation relative to the reference",
-            "properties" : {
-                "referenceBase" : {
-                    "description" : "The reference base at this position",
-                    "type" : "string",
-                    "minLength" : 1,
-                    "maxLength" : 1,
-                    "required" : true 
-                },
-                "alternateBase" : {
-                    "description" : "The alternate allele of this variation",
-                    "type" : "string",
-                    "minLength" : 1,
-                    "maxLength" : 1,
-                    "required" : true 
-                },
-                "requires" : {
-                    "properties" : {
-                        "position" : {
-                            
-                        },
-                        "chromosome" : {
-                            
-                        } 
-                    } 
-                } 
-            } 
+            "requires" : { "properties" : { "position" : { }, "chromosome" : { }, "reference" : { }, "alternate" : { } } },
+            "optional" : true
         },
         "samples" : {
             "description" : "A list of samples supporting the variant call",
@@ -250,21 +161,10 @@
                 "properties" : {
                     "genotype" : {
                         "description" : "The estimated genotype of this sample expressed relative to the reference genome, in the form of N/N if the genotype call is unphase or N|N if it is phased.  The allele values (N) are 0 for the reference and 1 for the alternate.",
-                        "enum" : [
-                            "0|0",
-                            "0|1",
-                            "1|0",
-                            "1|1",
-                            "0/0",
-                            "0/1",
-                            "1/0",
-                            "1/1" 
-                        ] 
+                        "enum" : [ "0|0", "0|1", "1|0", "1|1", "0/0", "0/1", "1/0", "1/1" ] 
                     },
                     "quality" : {
-                        "type" : {
-                            "$ref" : "#.properties.quality" 
-                        } 
+                        "type" : { "$ref" : "#.properties.quality" } 
                     },
                     "readDepth" : {
                         "description" : "The read depth of this sample in the range of the variant",
@@ -272,9 +172,7 @@
                     },
                     "haplotypeQuality" : {
                         "description" : "The phred-scaled quality of the haplotye call of this individual",
-                        "type" : {
-                            "$ref" : "#.properties.quality" 
-                        } 
+                        "type" : { "$ref" : "#.properties.quality" } 
                     } 
                 } 
             } 
